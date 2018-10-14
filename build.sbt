@@ -24,3 +24,6 @@ lazy val chapter06 = (project in file("chapter-06-purely-functional-state"))
 
 lazy val chapter07 = (project in file("chapter-07-purely-functional-parallelism"))
     .settings(chapterSettings)
+
+lazy val chapter08 = (project in file("chapter-08-property-based testing"))
+    .settings(chapterSettings)
