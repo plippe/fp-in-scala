@@ -9,3 +9,9 @@ lazy val chapter02 = (project in file("chapter-02-getting-started-with-functiona
 
 lazy val chapter03 = (project in file("chapter-03-functional-data-structures"))
     .settings(chapterSettings)
+
+lazy val chapter04 = (project in file("chapter-04-handling-errors-without-exceptions"))
+    .settings(chapterSettings)
+    .settings(
+        scalacOptions -= "-Ywarn-dead-code"
+    )
