@@ -15,3 +15,6 @@ lazy val chapter04 = (project in file("chapter-04-handling-errors-without-except
     .settings(
         scalacOptions -= "-Ywarn-dead-code"
     )
+
+lazy val chapter05 = (project in file("chapter-05-strictness-and-laziness"))
+    .settings(chapterSettings)
