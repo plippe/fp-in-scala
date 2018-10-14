@@ -12,9 +12,7 @@ lazy val chapter03 = (project in file("chapter-03-functional-data-structures"))
 
 lazy val chapter04 = (project in file("chapter-04-handling-errors-without-exceptions"))
     .settings(chapterSettings)
-    .settings(
-        scalacOptions -= "-Ywarn-dead-code"
-    )
+    .settings(scalacOptions -= "-Ywarn-dead-code")
 
 lazy val chapter05 = (project in file("chapter-05-strictness-and-laziness"))
     .settings(chapterSettings)
@@ -30,3 +28,8 @@ lazy val chapter08 = (project in file("chapter-08-property-based testing"))
 
 lazy val chapter09 = (project in file("chapter-09-parser-combinators"))
     .settings(chapterSettings)
+
+lazy val chapter10 = (project in file("chapter-10-monoids"))
+    .dependsOn(chapter07)
+    .settings(chapterSettings)
+    .settings(scalacOptions -= "-Ywarn-dead-code")
