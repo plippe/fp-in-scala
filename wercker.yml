@@ -12,4 +12,4 @@ build:
 
     - script:
         name: test
-        code: sbt test
+        code: sbt compile

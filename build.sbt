@@ -2,6 +2,11 @@
 lazy val chapterSettings = Seq(
     scalaVersion := "2.12.7",
     scalafmtOnCompile := true,
+
+    libraryDependencies ++= Seq(
+        "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+        "org.scalacheck" %% "scalacheck" % "1.14.0" % "test",
+    ),
 )
 
 lazy val chapter02 = (project in file("chapter-02-getting-started-with-functional-programming-in-scala"))
