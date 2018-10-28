@@ -52,3 +52,7 @@ lazy val chapter13 = (project in file("chapter-13-external-effects-and-io"))
 
 lazy val chapter14 = (project in file("chapter-14-local-effects-and-mutable-state"))
     .settings(chapterSettings)
+
+lazy val chapter15 = (project in file("chapter-15-stream-processing-and-incremental-io"))
+    .dependsOn(chapter13)
+    .settings(chapterSettings)
