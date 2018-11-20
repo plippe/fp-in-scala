@@ -51,10 +51,12 @@ class ListSpec extends FunSuite with PropertyChecks with Whenever {
 
   test("init") {
     forAll { l: List[Int] =>
-      val expected = Answers.List.init(l)
-      val result = List.init(l)
+      whenever(l != Nil) {
+        val expected = Answers.List.init(l)
+        val result = List.init(l)
 
-      assert(expected == result)
+        assert(expected == result)
+      }
     }
   }
 
