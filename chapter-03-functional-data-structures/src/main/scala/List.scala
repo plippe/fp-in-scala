@@ -135,7 +135,7 @@ object List {
     *
     * Implement append in terms of either foldLeft or foldRight.
     */
-  def appendWithFoldRight[A](l: List[A], r: List[A]): List[A] = ???
+  def append[A](l: List[A], r: List[A]): List[A] = ???
 
   /** EXERCISE 3.15
     *

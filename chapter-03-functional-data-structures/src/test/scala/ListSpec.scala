@@ -138,10 +138,10 @@ class ListSpec extends FunSuite with PropertyChecks with Whenever {
     }
   }
 
-  test("appendWithFoldRight") {
+  test("append") {
     forAll { (la: List[Int], lb: List[Int]) =>
       val expected = Answers.List.append(la, lb)
-      val result = List.appendWithFoldRight(la, lb)
+      val result = List.append(la, lb)
 
       assert(expected == result)
     }
