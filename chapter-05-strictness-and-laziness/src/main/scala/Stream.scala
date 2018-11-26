@@ -1,10 +1,6 @@
 package com.github.plippe.fpinscala.chapter05
 
-sealed trait Stream[+A]
-case object Empty extends Stream[Nothing]
-case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
-
-object Stream {
+sealed trait Stream[+A] {
 
   /** EXERCISE 5.1
     *
@@ -13,22 +9,22 @@ object Stream {
     * library. You can place this and other functions that operate on a Stream inside the
     * Stream trait.
     */
-  def toList[A](s: Stream[A]): List[A] = ???
+  def toList: List[A] = ???
 
   /** EXERCISE 5.2
     *
     * Write the function take(n) for returning the first n elements of a Stream, and
     * drop(n) for skipping the first n elements of a Stream.
     */
-  def take[A](s: Stream[A])(n: Int): Stream[A] = ???
-  def drop[A](s: Stream[A])(n: Int): Stream[A] = ???
+  def take(n: Int): Stream[A] = ???
+  def drop(n: Int): Stream[A] = ???
 
   /** EXERCISE 5.3
     *
     * Write the function takeWhile for returning all starting elements of a Stream that
     * match the given predicate.
     */
-  def takeWhile[A](s: Stream[A])(p: A => Boolean): Stream[A] = ???
+  def takeWhile(p: A => Boolean): Stream[A] = ???
 
   /** EXERCISE 5.4
     *
@@ -36,29 +32,79 @@ object Stream {
     * Your implementation should terminate the traversal as soon as it encounters a
     * nonmatching value.
     */
-  def forAll[A](s: Stream[A])(f: A => Boolean): Boolean = ???
+  def forAll(f: A => Boolean): Boolean = ???
 
   /** EXERCISE 5.5
     *
     * Use foldRight to implement takeWhile.
     */
-  def takeWhileWithFoldRight[A](s: Stream[A])(p: A => Boolean): Stream[A] = ???
+  def takeWhileWithFoldRight(p: A => Boolean): Stream[A] = ???
 
   /** EXERCISE 5.6
     *
     * Implement headOption using foldRight.
     */
-  def headOption[A](s: Stream[A]): Option[A] = ???
+  def headOption: Option[A] = ???
 
   /** EXERCISE 5.7
     *
     * Implement map, filter, append, and flatMap using foldRight. The append method
     * should be non-strict in its argument.
     */
-  def map[A, B](s: Stream[A])(f: A => B): Stream[B] = ???
-  def filter[A](s: Stream[A])(f: A => Boolean): Stream[A] = ???
-  def append[A](l: Stream[A], r: Stream[A]): Stream[A] = ???
-  def flatMap[A, B](s: Stream[A])(f: A => Stream[B]): Stream[B] = ???
+  def map[B](f: A => B): Stream[B] = ???
+  def filter(f: A => Boolean): Stream[A] = ???
+  def append[B >: A](s: => Stream[B]): Stream[B] = ???
+  def flatMap[B](f: A => Stream[B]): Stream[B] = ???
+
+  /** EXERCISE 5.13
+    *
+    * Use unfold to implement map, take, takeWhile, zipWith (as in chapter 3), and
+    * zipAll. The zipAll function should continue the traversal as long as either stream
+    * has more elements—it uses Option to indicate whether each stream has been
+    * exhausted.
+    */
+  def mapWithUnfold[B](f: A => B): Stream[B] = ???
+  def takeWithUnfold(n: Int): Stream[A] = ???
+  def takeWhileWithUnfold(p: A => Boolean): Stream[A] = ???
+  def zipWithWithUnfold[B, C](sb: Stream[B])(f: (A, B) => C): Stream[C] = ???
+  def zipAllWithUnfold[B](sb: Stream[B]): Stream[(Option[A], Option[B])] = ???
+
+  /** EXERCISE 5.14
+    *
+    * Implement startsWith using functions you’ve written. It should check if one
+    * Stream is a prefix of another. For instance, Stream(1,2,3) startsWith Stream(1,2)
+    * would be true.
+    */
+  def startsWith[B](sb: Stream[B]): Boolean = ???
+
+  /** EXERCISE 5.15
+    * Implement tails using unfold. For a given Stream, tails returns the Stream of suffixes
+    * of the input sequence, starting with the original Stream. For example, given
+    * Stream(1,2,3), it would return Stream(Stream(1,2,3), Stream(2,3), Stream(3),
+    * Stream()).
+    */
+  def tails: Stream[Stream[A]] = ???
+
+  /** EXERCISE 5.16
+    *
+    * Generalize tails to the function scanRight, which is like a foldRight that
+    * returns a stream of the intermediate results. For example:
+    *
+    * scala> Stream(1,2,3).scanRight(0)(_ + _).toList
+    * res0: List[Int] = List(6,5,3,0)
+    *
+    * This example should be equivalent to the expression List(1+2+3+0, 2+3+0, 3+0,
+    * 0). Your function should reuse intermediate results so that traversing a Stream with n
+    * elements always takes time linear in n. Can it be implemented using unfold? How, or
+    * why not? Could it be implemented using another function we’ve written?
+    */
+  def scanRight[B](z: B)(f: (A, => B) => B): Stream[B] = ???
+}
+
+case object Empty extends Stream[Nothing]
+case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+object Stream {
 
   /** EXERCISE 5.8
     *
@@ -97,51 +143,5 @@ object Stream {
   def fromWithUnfold(n: Int): Stream[Int] = ???
   def constantWithUnfold[A](a: A): Stream[A] = ???
   def onesWithUnfold(): Stream[Int] = ???
-
-  /** EXERCISE 5.13
-    *
-    * Use unfold to implement map, take, takeWhile, zipWith (as in chapter 3), and
-    * zipAll. The zipAll function should continue the traversal as long as either stream
-    * has more elements—it uses Option to indicate whether each stream has been
-    * exhausted.
-    */
-  def mapWithUnfold[A, B](s: Stream[A])(f: A => B): Stream[B] = ???
-  def takeWithUnfold[A](s: Stream[A])(n: Int): Stream[A] = ???
-  def takeWhileWithUnfold[A](s: Stream[A])(p: A => Boolean): Stream[A] = ???
-  def zipWithWithUnfold[A, B, C](s1: Stream[A])(s2: Stream[B])(
-      f: (A, B) => C): Stream[C] = ???
-  def zipAllWithUnfold[A, B](s1: Stream[A])(
-      s2: Stream[B]): Stream[(Option[A], Option[B])] = ???
-
-  /** EXERCISE 5.14
-    *
-    * Implement startsWith using functions you’ve written. It should check if one
-    * Stream is a prefix of another. For instance, Stream(1,2,3) startsWith Stream(1,2)
-    * would be true.
-    */
-  def startsWith[A](s1: Stream[A])(s2: Stream[A]): Boolean = ???
-
-  /** EXERCISE 5.15
-    * Implement tails using unfold. For a given Stream, tails returns the Stream of suffixes
-    * of the input sequence, starting with the original Stream. For example, given
-    * Stream(1,2,3), it would return Stream(Stream(1,2,3), Stream(2,3), Stream(3),
-    * Stream()).
-    */
-  def tails[A](s: Stream[A]): Stream[Stream[A]] = ???
-
-  /** EXERCISE 5.16
-    *
-    * Generalize tails to the function scanRight, which is like a foldRight that
-    * returns a stream of the intermediate results. For example:
-    *
-    * scala> Stream(1,2,3).scanRight(0)(_ + _).toList
-    * res0: List[Int] = List(6,5,3,0)
-    *
-    * This example should be equivalent to the expression List(1+2+3+0, 2+3+0, 3+0,
-    * 0). Your function should reuse intermediate results so that traversing a Stream with n
-    * elements always takes time linear in n. Can it be implemented using unfold? How, or
-    * why not? Could it be implemented using another function we’ve written?
-    */
-  def scanRight[A, B](s: Stream[A])(z: B)(f: (A, => B) => B): Stream[B] = ???
 
 }

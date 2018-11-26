@@ -6,7 +6,6 @@ object Answers {
   object Stream {
 
     def eqv[A](a: Stream[A], b: Stream[A]): Boolean = {
-      val start = take(a)(25)
       startsWith(b)(a)
     }
 
@@ -92,40 +91,40 @@ object Answers {
 
     def onesWithUnfold() = unfold(1)(_ => Some((1, 1)))
 
-    def zipWithWithUnfold[A, B, C](s1: Stream[A])(s2: Stream[B])(
+    def zipWithWithUnfold[A, B, C](sa: Stream[A])(sb: Stream[B])(
         f: (A, B) => C): Stream[C] =
-      unfold((s1, s2)) {
-        case (Cons(h1, t1), Cons(h2, t2)) =>
-          Some((f(h1(), h2()), (t1(), t2())))
+      unfold((sa, sb)) {
+        case (Cons(ha, ta), Cons(hb, tb)) =>
+          Some((f(ha(), hb()), (ta(), tb())))
         case _ => None
       }
 
-    def zipWithAll[A, B, C](s1: Stream[A])(s2: Stream[B])(
+    def zipWithAll[A, B, C](sa: Stream[A])(sb: Stream[B])(
         f: (Option[A], Option[B]) => C): Stream[C] = {
       val emptyA: Stream[A] = Empty
       val emptyB: Stream[B] = Empty
 
-      Stream.unfold((s1, s2)) {
+      Stream.unfold((sa, sb)) {
         case (Empty, Empty) => None
         case (Cons(h, t), Empty) =>
           Some((f(Some(h()), Option.empty[B]), (t(), emptyB)))
         case (Empty, Cons(h, t)) =>
           Some((f(Option.empty[A], Some(h())), (emptyA -> t())))
-        case (Cons(h1, t1), Cons(h2, t2)) =>
-          Some((f(Some(h1()), Some(h2())), (t1() -> t2())))
+        case (Cons(ha, ta), Cons(hb, tb)) =>
+          Some((f(Some(ha()), Some(hb())), (ta() -> tb())))
       }
     }
 
-    def zipAllWithUnfold[A, B](s1: Stream[A])(
-        s2: Stream[B]): Stream[(Option[A], Option[B])] =
-      zipWithAll(s1)(s2)((_, _))
+    def zipAllWithUnfold[A, B](sa: Stream[A])(
+        sb: Stream[B]): Stream[(Option[A], Option[B])] =
+      zipWithAll(sa)(sb)((_, _))
 
-    def startsWith[A, B](s1: Stream[A])(s2: Stream[B]): Boolean = {
+    def startsWith[A, B](sa: Stream[A])(sb: Stream[B]): Boolean = {
       def forAll[C](s: Stream[C])(f: C => Boolean): Boolean =
         foldRight[C, Boolean](s)(true)((a, b) => f(a) && b)
 
-      forAll(takeWhile(zipAllWithUnfold(s1)(s2))(!_._2.isEmpty)) {
-        case (h, h2) => h == h2
+      forAll(takeWhile(zipAllWithUnfold(sa)(sb))(!_._2.isEmpty)) {
+        case (h, hb) => h == hb
       }
     }
 
