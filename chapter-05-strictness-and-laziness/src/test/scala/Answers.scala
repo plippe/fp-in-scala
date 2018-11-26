@@ -6,7 +6,8 @@ object Answers {
   object Stream {
 
     def eqv[A](a: Stream[A], b: Stream[A]): Boolean = {
-      startsWith(b)(a)
+      val firstN = take(b)(25)
+      startsWith(a)(firstN)
     }
 
     def toList[A](s: Stream[A]): List[A] = {
