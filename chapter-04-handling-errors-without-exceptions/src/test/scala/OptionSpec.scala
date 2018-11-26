@@ -12,7 +12,7 @@ class TreeSpec extends FunSuite with PropertyChecks {
 
     forAll { o: Option[Int] =>
       val expected = Answers.Option.map(o)(f)
-      val result = Option.map(o)(f)
+      val result = o.map(f)
 
       assert(expected == result)
     }
@@ -21,7 +21,7 @@ class TreeSpec extends FunSuite with PropertyChecks {
   test("flatMap") {
     forAll { (oa: Option[Int], ob: Option[Int]) =>
       val expected = Answers.Option.flatMap(oa)(_ => ob)
-      val result = Option.flatMap(oa)(_ => ob)
+      val result = oa.flatMap(_ => ob)
 
       assert(expected == result)
     }
@@ -30,7 +30,7 @@ class TreeSpec extends FunSuite with PropertyChecks {
   test("getOrElse") {
     forAll { (o: Option[Int], n: Int) =>
       val expected = Answers.Option.getOrElse(o)(n)
-      val result = Option.getOrElse(o)(n)
+      val result = o.getOrElse(n)
 
       assert(expected == result)
     }
@@ -39,7 +39,7 @@ class TreeSpec extends FunSuite with PropertyChecks {
   test("orElse") {
     forAll { (oa: Option[Int], ob: Option[Int]) =>
       val expected = Answers.Option.orElse(oa)(ob)
-      val result = Option.orElse(oa)(ob)
+      val result = oa.orElse(ob)
 
       assert(expected == result)
     }
@@ -50,7 +50,7 @@ class TreeSpec extends FunSuite with PropertyChecks {
 
     forAll { o: Option[Int] =>
       val expected = Answers.Option.filter(o)(f)
-      val result = Option.filter(o)(f)
+      val result = o.filter(f)
 
       assert(expected == result)
     }

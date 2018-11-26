@@ -1,23 +1,23 @@
 package com.github.plippe.fpinscala.chapter04
 
-sealed trait Either[+E, +A]
-case class Left[+E](value: E) extends Either[E, Nothing]
-case class Right[+A](value: A) extends Either[Nothing, A]
-
-object Either {
+sealed trait Either[+E, +A] {
 
   /** EXERCISE 4.6
     *
     * Implement versions of map, flatMap, orElse, and map2 on Either that operate on the
     * Right value.
     */
-  def map[E, A, B](e: Either[E, A])(f: A => B): Either[E, B] = ???
-  def flatMap[E, A, EE >: E, B](e: Either[E, A])(
-      f: A => Either[EE, B]): Either[EE, B] = ???
-  def orElse[E, A, EE >: E, B >: A](a: Either[E, A])(
-      b: Either[EE, B]): Either[EE, B] = ???
-  def map2[E, A, EE >: E, B, C](a: Either[E, A], b: Either[EE, B])(
-      f: (A, B) => C): Either[EE, C] = ???
+  def map[B](f: A => B): Either[E, B] = ???
+  def flatMap[EE >: E, B](f: A => Either[EE, B]): Either[EE, B] = ???
+  def orElse[EE >: E, B >: A](b: => Either[EE, B]): Either[EE, B] = ???
+  def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] = ???
+
+}
+
+case class Left[+E](value: E) extends Either[E, Nothing]
+case class Right[+A](value: A) extends Either[Nothing, A]
+
+object Either {
 
   /** EXERCISE 4.7
     *
@@ -25,7 +25,7 @@ object Either {
     * that’s encountered, if there is one.
     */
   def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] = ???
-  def traverse[E, A, B](es: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
+  def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
     ???
 
   /** EXERCISE 4.8

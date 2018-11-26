@@ -12,7 +12,7 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
 
     forAll { e: Either[Int, Int] =>
       val expected = Answers.Either.map(e)(f)
-      val result = Either.map(e)(f)
+      val result = e.map(f)
 
       assert(expected == result)
     }
@@ -21,7 +21,7 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
   test("flatMap") {
     forAll { (ea: Either[Int, Int], eb: Either[Int, Int]) =>
       val expected = Answers.Either.flatMap(ea)(_ => eb)
-      val result = Either.flatMap(ea)(_ => eb)
+      val result = ea.flatMap(_ => eb)
 
       assert(expected == result)
     }
@@ -30,7 +30,7 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
   test("orElse") {
     forAll { (ea: Either[Int, Int], eb: Either[Int, Int]) =>
       val expected = Answers.Either.orElse(ea)(eb)
-      val result = Either.orElse(ea)(eb)
+      val result = ea.orElse(eb)
 
       assert(expected == result)
     }
@@ -41,7 +41,7 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
 
     forAll { (ea: Either[Int, Int], eb: Either[Int, Int]) =>
       val expected = Answers.Either.map2(ea, eb)(f)
-      val result = Either.map2(ea, eb)(f)
+      val result = ea.map2(eb)(f)
 
       assert(expected == result)
     }

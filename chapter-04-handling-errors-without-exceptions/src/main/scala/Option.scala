@@ -1,10 +1,6 @@
 package com.github.plippe.fpinscala.chapter04
 
-sealed trait Option[+A]
-case class Some[+A](get: A) extends Option[A]
-case object None extends Option[Nothing]
-
-object Option {
+sealed trait Option[+A] {
 
   /** EXERCISE 4.1
     *
@@ -20,11 +16,18 @@ object Option {
     *   - orElse returns the first Option if it’s defined; otherwise, it returns the second
     *     Option
     */
-  def map[A, B](o: Option[A])(f: A => B): Option[B] = ???
-  def flatMap[A, B](o: Option[A])(f: A => Option[B]): Option[B] = ???
-  def getOrElse[A, B >: A](o: Option[A])(default: => B): B = ???
-  def orElse[A, B >: A](oa: Option[A])(ob: => Option[B]): Option[B] = ???
-  def filter[A](o: Option[A])(f: A => Boolean): Option[A] = ???
+  def map[B](f: A => B): Option[B] = ???
+  def flatMap[B](f: A => Option[B]): Option[B] = ???
+  def getOrElse[B >: A](default: => B): B = ???
+  def orElse[B >: A](ob: => Option[B]): Option[B] = ???
+  def filter(f: A => Boolean): Option[A] = ???
+
+}
+
+case class Some[+A](get: A) extends Option[A]
+case object None extends Option[Nothing]
+
+object Option {
 
   /** EXERCISE 4.2
     *
@@ -57,5 +60,6 @@ object Option {
     * sequence in terms of traverse.
     */
   def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = ???
+  def sequenceWithTraverse[A](a: List[Option[A]]): Option[List[A]] = ???
 
 }
