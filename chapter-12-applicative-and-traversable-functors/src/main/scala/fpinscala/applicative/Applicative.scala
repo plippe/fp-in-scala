@@ -2,8 +2,8 @@
 package fpinscala
 package applicative
 
+import com.github.plippe.fpinscala.chapter06.State
 import monads.Functor
-import state._
 import StateUtil._ // defined at bottom of this file
 import monoids._
 import language.higherKinds
