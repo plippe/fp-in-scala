@@ -40,6 +40,7 @@ object Tree {
     * over their similarities. Reimplement them in terms of this more general function. Can
     * you draw an analogy between this fold function and the left and right folds for List?
     */
+  def fold[A, B](t: Tree[A])(f: A => B)(g: (B, B) => B): B = ???
   def sizeWithFold[A](t: Tree[A]): Int = ???
   def maximumWithFold(t: Tree[Int]): Int = ???
   def depthWithFold[A](t: Tree[A]): Int = ???
