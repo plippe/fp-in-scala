@@ -94,4 +94,13 @@ class OptionSpec extends FunSuite with PropertyChecks {
     }
   }
 
+  test("sequenceWithTraverse") {
+    forAll { os: List[Option[Int]] =>
+      val expected = Answers.Option.sequence(os)
+      val result = Option.sequenceWithTraverse(os)
+
+      assert(expected == result)
+    }
+  }
+
 }
