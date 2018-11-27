@@ -5,7 +5,7 @@ import org.scalatest.prop.PropertyChecks
 
 import com.github.plippe.fpinscala.chapter04.Gen._
 
-class TreeSpec extends FunSuite with PropertyChecks {
+class OptionSpec extends FunSuite with PropertyChecks {
 
   test("map") {
     def f(a: Int) = a + 1
