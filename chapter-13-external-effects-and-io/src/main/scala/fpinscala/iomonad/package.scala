@@ -4,12 +4,12 @@ package fpinscala
 import language.higherKinds
 
 package object iomonad {
-  import fpinscala.parallelism.Nonblocking._
+  import com.github.plippe.fpinscala.chapter07.Par
 
   type IO[A] = IO3.IO[A]
   def IO[A](a: => A): IO[A] = IO3.IO[A](a)
 
-  implicit val ioMonad = IO3.freeMonad[Par]
+  implicit val ioMonad = IO3.freeMonad[Par.Par]
 
   def now[A](a: A): IO[A] = IO3.Return(a)
 
@@ -19,14 +19,14 @@ package object iomonad {
 
   def delay[A](a: => A): IO[A] = now(()) flatMap (_ => now(a))
 
-  def par[A](a: Par[A]): IO[A] = IO3.Suspend(a)
+  def par[A](a: Par.Par[A]): IO[A] = IO3.Suspend(a)
 
   def async[A](cb: ((A => Unit) => Unit)): IO[A] =
-    fork(par(Par.async(cb)))
+    ??? // fork(par(Par.async(cb)))
 
   type Free[F[_], A] = IO3.Free[F, A]
 
-  def Return[A](a: A): IO[A] = IO3.Return[Par, A](a)
+  def Return[A](a: A): IO[A] = IO3.Return[Par.Par, A](a)
 
   // To run an `IO`, we need an executor service.
   // The name we have chosen for this method, `unsafePerformIO`,
@@ -34,5 +34,5 @@ package object iomonad {
   // and that it _performs_ the actual I/O.
   import java.util.concurrent.ExecutorService
   def unsafePerformIO[A](io: IO[A])(implicit E: ExecutorService): A =
-    Par.run(E) { IO3.run(io)(IO3.parMonad) }
+    ??? // Par.run(E) { IO3.run(io)(IO3.parMonad) }
 }

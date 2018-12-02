@@ -1,7 +1,7 @@
 // https://raw.githubusercontent.com/fpinscala/fpinscala/master/exercises/src/main/scala/fpinscala/iomonad/Task.scala
 package fpinscala.iomonad
 
-import fpinscala.parallelism.Nonblocking._
+import com.github.plippe.fpinscala.chapter07.Par
 import java.util.concurrent.ExecutorService
 
 /*

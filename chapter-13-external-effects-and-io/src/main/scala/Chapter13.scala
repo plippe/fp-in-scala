@@ -1,4 +1,4 @@
-import fpinscala.parallelism.Nonblocking._
+import com.github.plippe.fpinscala.chapter07.Par.Par
 import fpinscala.iomonad._
 import IO3.{Console, ~>}
 

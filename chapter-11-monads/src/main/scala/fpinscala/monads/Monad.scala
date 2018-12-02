@@ -2,10 +2,9 @@
 package fpinscala
 package monads
 
+import com.github.plippe.fpinscala.chapter07.Par.Par
 import parsing._
 import testing._
-import parallelism._
-import parallelism.Par._
 import language.higherKinds
 
 trait Functor[F[_]] {

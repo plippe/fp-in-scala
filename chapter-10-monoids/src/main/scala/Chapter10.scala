@@ -56,7 +56,7 @@ trait Chapter10 {
     * chapter 7. Hint: Implement par, a combinator to promote Monoid[A] to a Monoid
     * [Par[A]], and then use this to implement parFoldMap.
     */
-  import fpinscala.parallelism.Nonblocking._
+  import com.github.plippe.fpinscala.chapter07.Par.Par
 
   def par[A](m: Monoid[A]): Monoid[Par[A]]
   def parFoldMap[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): Par[B]

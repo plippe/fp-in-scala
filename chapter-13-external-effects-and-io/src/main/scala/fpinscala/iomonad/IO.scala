@@ -1,6 +1,7 @@
 // https://raw.githubusercontent.com/fpinscala/fpinscala/master/exercises/src/main/scala/fpinscala/iomonad/IO.scala
 package fpinscala.iomonad
 
+import com.github.plippe.fpinscala.chapter07.Par
 import language.postfixOps
 import language.higherKinds
 import scala.io.StdIn.readLine
@@ -325,8 +326,6 @@ object IO2bTests {
 
 object IO2c {
 
-  import fpinscala.parallelism.Nonblocking._
-
   /*
    * We've solved our first problem of ensuring stack safety, but we're still
    * being very inexplicit about what sort of effects can occur, and we also
@@ -343,7 +342,7 @@ object IO2c {
       flatMap(f andThen (Return(_)))
   }
   case class Return[A](a: A) extends Async[A]
-  case class Suspend[A](resume: Par[A]) extends Async[A] // notice this is a `Par`
+  case class Suspend[A](resume: Par.Par[A]) extends Async[A] // notice this is a `Par`
   case class FlatMap[A, B](sub: Async[A], k: A => Async[B]) extends Async[B]
 
   object Async extends Monad[Async] {
@@ -359,7 +358,7 @@ object IO2c {
     case _                         => async
   }
 
-  def run[A](async: Async[A]): Par[A] = step(async) match {
+  def run[A](async: Async[A]): Par.Par[A] = step(async) match {
     case Return(a)  => Par.unit(a)
     case Suspend(r) => r
     case FlatMap(x, f) =>
@@ -411,10 +410,8 @@ object IO3 {
   only console I/O effects.
    */
 
-  import fpinscala.parallelism.Nonblocking.Par
-
   sealed trait Console[A] {
-    def toPar: Par[A]
+    def toPar: Par.Par[A]
     def toThunk: () => A
 
     // other interpreters
@@ -482,9 +479,9 @@ object IO3 {
       () => f(a())()
   }
 
-  implicit val parMonad = new Monad[Par] {
+  implicit val parMonad = new Monad[Par.Par] {
     def unit[A](a: => A) = Par.unit(a)
-    def flatMap[A, B](a: Par[A])(f: A => Par[B]) = Par.fork {
+    def flatMap[A, B](a: Par.Par[A])(f: A => Par.Par[B]) = Par.fork {
       Par.flatMap(a)(f)
     }
   }
@@ -501,12 +498,12 @@ object IO3 {
   val consoleToFunction0 =
     new (Console ~> Function0) { def apply[A](a: Console[A]) = a.toThunk }
   val consoleToPar =
-    new (Console ~> Par) { def apply[A](a: Console[A]) = a.toPar }
+    new (Console ~> Par.Par) { def apply[A](a: Console[A]) = a.toPar }
 
   def runConsoleFunction0[A](a: Free[Console, A]): () => A =
     runFree[Console, Function0, A](a)(consoleToFunction0)
-  def runConsolePar[A](a: Free[Console, A]): Par[A] =
-    runFree[Console, Par, A](a)(consoleToPar)
+  def runConsolePar[A](a: Free[Console, A]): Par.Par[A] =
+    runFree[Console, Par.Par, A](a)(consoleToPar)
 
   /*
   The `runConsoleFunction0` implementation is unfortunately not stack safe,
@@ -588,7 +585,7 @@ object IO3 {
   // which gives us a stack safe monad
 
   // We conclude that a good representation of an `IO` monad is this:
-  type IO[A] = Free[Par, A]
+  type IO[A] = Free[Par.Par, A]
 
   /*
    * Exercise 5: Implement a non-blocking read from an asynchronous file channel.
@@ -601,12 +598,12 @@ object IO3 {
 
   def read(file: AsynchronousFileChannel,
            fromPosition: Long,
-           numBytes: Int): Par[Either[Throwable, Array[Byte]]] = ???
+           numBytes: Int): Par.Par[Either[Throwable, Array[Byte]]] = ???
 
   // Provides the syntax `Async { k => ... }` for asyncronous IO blocks.
   def Async[A](cb: (A => Unit) => Unit): IO[A] =
-    Suspend(Par.async(cb))
+    ??? // Suspend(Par.async(cb))
 
   // Provides the `IO { ... }` syntax for synchronous IO blocks.
-  def IO[A](a: => A): IO[A] = Suspend { Par.delay(a) }
+  def IO[A](a: => A): IO[A] = ??? // Suspend { Par.delay(a) }
 }

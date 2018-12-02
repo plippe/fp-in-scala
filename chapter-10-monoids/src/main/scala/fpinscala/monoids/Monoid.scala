@@ -1,7 +1,7 @@
 // https://github.com/fpinscala/fpinscala/blob/master/exercises/src/main/scala/fpinscala/monoids/Monoid.scala
 package fpinscala.monoids
 
-import fpinscala.parallelism.Nonblocking._
+import com.github.plippe.fpinscala.chapter07.Par.Par
 import language.higherKinds
 
 trait Monoid[A] {
