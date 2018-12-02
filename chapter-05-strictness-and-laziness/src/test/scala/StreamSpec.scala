@@ -56,10 +56,10 @@ class StreamSpec extends FunSuite with PropertyChecks {
     }
   }
 
-  test("headOption") {
+  test("headOptionWithFoldRight") {
     forAll { s: Stream[Int] =>
       val expected = Answers.Stream.headOption(s)
-      val result = s.headOption
+      val result = s.headOptionWithFoldRight
 
       assert(expected == result)
     }

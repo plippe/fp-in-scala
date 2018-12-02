@@ -6,13 +6,13 @@ object Gen {
 
   implicit def arbitraryStreamGen[T: Arbitrary] = Arbitrary(streamGen[T])
   def streamGen[T: Arbitrary]: OfficialGen[Stream[T]] =
-    OfficialGen.oneOf(OfficialGen.const(Empty), consGen[T])
+    OfficialGen.oneOf(OfficialGen.const(Stream.empty[T]), consGen[T])
 
   implicit def arbitraryConsGen[T: Arbitrary] = Arbitrary(consGen[T])
   def consGen[T: Arbitrary]: OfficialGen[Cons[T]] =
     for {
       head <- Arbitrary.arbitrary[T]
       tail <- streamGen[T]
-    } yield Cons(() => head, () => tail)
+    } yield Stream.cons(head, tail).asInstanceOf[Cons[T]]
 
 }

@@ -6,18 +6,24 @@ case class Cons[A](head: A, tail: List[A]) extends List[A]
 
 object List {
 
-  /** Dependencies
-    *
-    * Methods required to solve the exercises
-    */
-  def apply[A](as: A*): List[A] =
-    if (as.isEmpty) Nil
-    else Cons(as.head, apply(as.tail: _*))
-
   def sum(ints: List[Int]): Int =
     ints match {
       case Nil         => 0
       case Cons(x, xs) => x + sum(xs)
+    }
+  def product(ds: List[Double]): Double = ds match {
+    case Nil          => 1.0
+    case Cons(0.0, _) => 0.0
+    case Cons(x, xs)  => x * product(xs)
+  }
+  def apply[A](as: A*): List[A] =
+    if (as.isEmpty) Nil
+    else Cons(as.head, apply(as.tail: _*))
+
+  def append[A](a1: List[A], a2: List[A]): List[A] =
+    a1 match {
+      case Nil        => a2
+      case Cons(h, t) => Cons(h, append(t, a2))
     }
 
   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
@@ -25,6 +31,12 @@ object List {
       case Nil         => z
       case Cons(x, xs) => f(x, foldRight(xs, z)(f))
     }
+
+  def sumWithFoldRight(ns: List[Int]) =
+    foldRight(ns, 0)((x, y) => x + y)
+
+  def productWithFoldRight(ns: List[Double]) =
+    foldRight(ns, 1.0)(_ * _)
 
   /** EXERCISE 3.1
     *
@@ -94,7 +106,7 @@ object List {
     *
     * Compute the length of a list using foldRight.
     */
-  def length[A](l: List[A]): Int = ???
+  def lengthWithFoldRight[A](l: List[A]): Int = ???
 
   /** EXERCISE 3.10
     *
@@ -135,7 +147,8 @@ object List {
     *
     * Implement append in terms of either foldLeft or foldRight.
     */
-  def append[A](l: List[A], r: List[A]): List[A] = ???
+  def appendWithFoldLeft[A](l: List[A], r: List[A]): List[A] = ???
+  def appendWithFoldRight[A](l: List[A], r: List[A]): List[A] = ???
 
   /** EXERCISE 3.15
     *

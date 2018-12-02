@@ -2,6 +2,26 @@ package com.github.plippe.fpinscala.chapter02
 
 object Exercises {
 
+  def factorial(n: Int): Int = {
+    @annotation.tailrec
+    def go(n: Int, acc: Int): Int =
+      if (n <= 0) acc
+      else go(n - 1, n * acc)
+    go(n, 1)
+  }
+
+  def findFirst[A](as: Array[A], p: A => Boolean): Int = {
+    @annotation.tailrec
+    def loop(n: Int): Int =
+      if (n >= as.length) -1
+      else if (p(as(n))) n
+      else loop(n + 1)
+    loop(0)
+  }
+
+  def partial1[A, B, C](a: A, f: (A, B) => C): B => C =
+    (b: B) => f(a, b)
+
   /** EXERCISE 2.1
     *
     * Write a recursive function to get the nth Fibonacci number (http://mng.bz/C29s).

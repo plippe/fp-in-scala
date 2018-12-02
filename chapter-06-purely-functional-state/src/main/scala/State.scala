@@ -16,10 +16,6 @@ case class State[S, +A](run: S => (A, S)) {
 
 object State {
 
-  /** Dependencies
-    *
-    * Methods required to solve the exercises
-    */
   def modify[S](f: S => S): State[S, Unit] =
     for {
       s <- get // Gets the current state and assigns it to `s`.

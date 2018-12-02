@@ -1,9 +1,13 @@
 package com.github.plippe.fpinscala.chapter06
 
-case class RNG(seed: Long) {
+trait RNG {
+  def nextInt: (Int, RNG)
+}
+
+case class SimpleRNG(seed: Long) extends RNG {
   def nextInt: (Int, RNG) = {
     val newSeed = (seed * 0x5DEECE66DL + 0xBL) & 0xFFFFFFFFFFFFL
-    val nextRNG = RNG(newSeed)
+    val nextRNG = SimpleRNG(newSeed)
     val n = (newSeed >>> 16).toInt
     (n, nextRNG)
   }
@@ -11,7 +15,15 @@ case class RNG(seed: Long) {
 
 object RNG {
 
+  def randomPair(rng: RNG): ((Int, Int), RNG) = {
+    val (i1, rng2) = rng.nextInt
+    val (i2, rng3) = rng2.nextInt
+    ((i1, i2), rng3)
+  }
+
   type Rand[+A] = RNG => (A, RNG)
+
+  val int: Rand[Int] = _.nextInt
 
   def unit[A](a: A): Rand[A] = rng => (a, rng)
 
@@ -20,6 +32,18 @@ object RNG {
       val (a, rng2) = s(rng)
       (f(a), rng2)
     }
+
+  def nonNegativeEven: Rand[Int] =
+    map(nonNegativeInt)(i => i - i % 2)
+
+  def both[A, B](ra: Rand[A], rb: Rand[B]): Rand[(A, B)] =
+    map2(ra, rb)((_, _))
+
+  val randIntDouble: Rand[(Int, Double)] =
+    both(int, double)
+
+  val randDoubleInt: Rand[(Double, Int)] =
+    both(double, int)
 
   /** EXERCISE 6.1
     *

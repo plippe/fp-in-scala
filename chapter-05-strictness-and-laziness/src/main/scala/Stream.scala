@@ -2,6 +2,31 @@ package com.github.plippe.fpinscala.chapter05
 
 sealed trait Stream[+A] {
 
+  def headOption: Option[A] = this match {
+    case Empty      => None
+    case Cons(h, _) => Some(h())
+  }
+
+  def exists(p: A => Boolean): Boolean = this match {
+    case Cons(h, t) => p(h()) || t().exists(p)
+    case _          => false
+  }
+
+  def foldRight[B](z: => B)(f: (A, => B) => B): B =
+    this match {
+      case Cons(h, t) => f(h(), t().foldRight(z)(f))
+      case _          => z
+    }
+
+  def existsWithFoldRight(p: A => Boolean): Boolean =
+    foldRight(false)((a, b) => p(a) || b)
+
+  def find(p: A => Boolean): Option[A] =
+    filter(p).headOption
+
+  def hasSubsequence[B](s: Stream[B]): Boolean =
+    tails exists (_ startsWith s)
+
   /** EXERCISE 5.1
     *
     * Write a function to convert a Stream to a List, which will force its evaluation and let
@@ -44,7 +69,7 @@ sealed trait Stream[+A] {
     *
     * Implement headOption using foldRight.
     */
-  def headOption: Option[A] = ???
+  def headOptionWithFoldRight: Option[A] = ???
 
   /** EXERCISE 5.7
     *
@@ -105,6 +130,17 @@ case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
 
 object Stream {
+
+  def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+    lazy val head = hd
+    lazy val tail = tl
+    Cons(() => head, () => tail)
+  }
+
+  def empty[A]: Stream[A] = Empty
+
+  def apply[A](as: A*): Stream[A] =
+    if (as.isEmpty) empty else cons(as.head, apply(as.tail: _*))
 
   /** EXERCISE 5.8
     *

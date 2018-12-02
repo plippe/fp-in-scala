@@ -6,7 +6,7 @@ import com.github.plippe.fpinscala.chapter06.State._
 object Gen {
 
   implicit def arbitraryRngGen = Arbitrary(rngGen)
-  def rngGen: OfficialGen[RNG] = Arbitrary.arbitrary[Long].map(RNG.apply)
+  def rngGen: OfficialGen[RNG] = Arbitrary.arbitrary[Long].map(SimpleRNG.apply)
 
   implicit def arbitraryRandGen[T: Arbitrary] = Arbitrary(randGen[T])
   def randGen[T: Arbitrary]: OfficialGen[RNG.Rand[T]] =
