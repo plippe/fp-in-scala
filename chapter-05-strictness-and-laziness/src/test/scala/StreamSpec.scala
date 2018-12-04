@@ -142,7 +142,7 @@ class StreamSpec extends FunSuite with PropertyChecks {
       val expected = Answers.Stream.unfold(n)(f)
       val result = Stream.unfold(n)(f)
 
-      assert(expected == result)
+      assert(Answers.Stream.eqv(expected, result))
     }
   }
 
