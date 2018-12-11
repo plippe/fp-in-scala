@@ -35,14 +35,19 @@ object Answers {
       ((d1, d2, d3), r3)
     }
 
-    def ints(count: Int)(rng: RNG): (List[Int], RNG) =
-      if (count == 0)
-        (List(), rng)
-      else {
-        val (x, r1) = rng.nextInt
-        val (xs, r2) = ints(count - 1)(r1)
-        (x :: xs, r2)
+    def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+      @annotation.tailrec
+      def rec(count: Int, acc: List[Int], rng: RNG): (List[Int], RNG) = {
+        count match {
+          case n if n <= 0 => (acc, rng)
+          case n =>
+            val (i, r) = rng.nextInt
+            rec(n - 1, acc :+ i, r)
+        }
       }
+
+      rec(count, List.empty[Int], rng)
+    }
 
     def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
       rng => {
