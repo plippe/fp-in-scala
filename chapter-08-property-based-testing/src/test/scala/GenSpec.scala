@@ -9,8 +9,8 @@ class GenSpec extends FunSuite with PropertyChecks {
 
   test("choose") {
     forAll { (rng: RNG, start: Int, stop: Int) =>
-      val expected = Answers.Gen.choose(start, stop).sample.run(rng)
       val result = Gen.choose(start, stop).sample.run(rng)
+      val expected = Answers.Gen.choose(start, stop).sample.run(rng)
 
       assert(expected == result)
     }
@@ -18,8 +18,8 @@ class GenSpec extends FunSuite with PropertyChecks {
 
   test("unit") {
     forAll { (rng: RNG, value: Int) =>
-      val expected = Answers.Gen.unit(value).sample.run(rng)
       val result = Gen.unit(value).sample.run(rng)
+      val expected = Answers.Gen.unit(value).sample.run(rng)
 
       assert(expected == result)
     }
@@ -27,8 +27,8 @@ class GenSpec extends FunSuite with PropertyChecks {
 
   test("boolean") {
     forAll { (rng: RNG) =>
-      val expected = Answers.Gen.boolean.sample.run(rng)
       val result = Gen.boolean.sample.run(rng)
+      val expected = Answers.Gen.boolean.sample.run(rng)
 
       assert(expected == result)
     }

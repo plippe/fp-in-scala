@@ -10,8 +10,8 @@ class StateSpec extends FunSuite with PropertyChecks {
 
   test("unit") {
     forAll { a: Int =>
-      val expected = Answers.State.unit(a).run(())
       val result = State.unit(a).run(())
+      val expected = Answers.State.unit(a).run(())
 
       assert(expected == result)
     }
@@ -21,8 +21,8 @@ class StateSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a + 1
 
     forAll { s: State[Unit, Int] =>
-      val expected = Answers.State.map(s)(f).run(())
       val result = s.map(f).run(())
+      val expected = Answers.State.map(s)(f).run(())
 
       assert(expected == result)
     }
@@ -30,8 +30,8 @@ class StateSpec extends FunSuite with PropertyChecks {
 
   test("map2") {
     forAll { (sa: State[Unit, Int], sb: State[Unit, Int]) =>
-      val expected = Answers.State.map2(sa)(sb)(_ + _).run(())
       val result = sa.map2(sb)(_ + _).run(())
+      val expected = Answers.State.map2(sa)(sb)(_ + _).run(())
 
       assert(expected == result)
     }
@@ -41,8 +41,8 @@ class StateSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = State[Unit, Int](s => (a + 1, s))
 
     forAll { s: State[Unit, Int] =>
-      val expected = Answers.State.flatMap(s)(f).run(())
       val result = s.flatMap(f).run(())
+      val expected = Answers.State.flatMap(s)(f).run(())
 
       assert(expected == result)
     }
@@ -50,8 +50,8 @@ class StateSpec extends FunSuite with PropertyChecks {
 
   test("sequence") {
     forAll { s: List[State[Unit, Int]] =>
-      val expected = Answers.State.sequence(s).run(())
       val result = State.sequence(s).run(())
+      val expected = Answers.State.sequence(s).run(())
 
       assert(expected == result)
     }
@@ -59,8 +59,8 @@ class StateSpec extends FunSuite with PropertyChecks {
 
   test("simulateMachine") {
     forAll { (machine: Machine, is: List[Input]) =>
-      val expected = Answers.State.simulateMachine(is).run(machine)
       val result = State.simulateMachine(is).run(machine)
+      val expected = Answers.State.simulateMachine(is).run(machine)
 
       assert(expected == result)
     }

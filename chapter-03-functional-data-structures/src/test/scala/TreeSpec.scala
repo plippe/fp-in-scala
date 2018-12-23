@@ -9,8 +9,8 @@ class TreeSpec extends FunSuite with PropertyChecks {
 
   test("size") {
     forAll { t: Tree[Int] =>
-      val expected = Answers.Tree.size(t)
       val result = Tree.size(t)
+      val expected = Answers.Tree.size(t)
 
       assert(expected == result)
     }
@@ -18,8 +18,8 @@ class TreeSpec extends FunSuite with PropertyChecks {
 
   test("maximum") {
     forAll { t: Tree[Int] =>
-      val expected = Answers.Tree.maximum(t)
       val result = Tree.maximum(t)
+      val expected = Answers.Tree.maximum(t)
 
       assert(expected == result)
     }
@@ -27,8 +27,8 @@ class TreeSpec extends FunSuite with PropertyChecks {
 
   test("depth") {
     forAll { t: Tree[Int] =>
-      val expected = Answers.Tree.depth(t)
       val result = Tree.depth(t)
+      val expected = Answers.Tree.depth(t)
 
       assert(expected == result)
     }
@@ -38,8 +38,8 @@ class TreeSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a + 1
 
     forAll { t: Tree[Int] =>
-      val expected = Answers.Tree.map(t)(f)
       val result = Tree.map(t)(f)
+      val expected = Answers.Tree.map(t)(f)
 
       assert(expected == result)
     }
@@ -47,8 +47,8 @@ class TreeSpec extends FunSuite with PropertyChecks {
 
   test("sizeWithFold") {
     forAll { t: Tree[Int] =>
-      val expected = Answers.Tree.size(t)
       val result = Tree.sizeWithFold(t)
+      val expected = Answers.Tree.size(t)
 
       assert(expected == result)
     }
@@ -56,8 +56,8 @@ class TreeSpec extends FunSuite with PropertyChecks {
 
   test("maximumWithFold") {
     forAll { t: Tree[Int] =>
-      val expected = Answers.Tree.maximum(t)
       val result = Tree.maximumWithFold(t)
+      val expected = Answers.Tree.maximum(t)
 
       assert(expected == result)
     }
@@ -65,8 +65,8 @@ class TreeSpec extends FunSuite with PropertyChecks {
 
   test("depthWithFold") {
     forAll { t: Tree[Int] =>
-      val expected = Answers.Tree.depth(t)
       val result = Tree.depthWithFold(t)
+      val expected = Answers.Tree.depth(t)
 
       assert(expected == result)
     }
@@ -76,8 +76,8 @@ class TreeSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a + 1
 
     forAll { t: Tree[Int] =>
-      val expected = Answers.Tree.map(t)(f)
       val result = Tree.mapWithFold(t)(f)
+      val expected = Answers.Tree.map(t)(f)
 
       assert(expected == result)
     }
