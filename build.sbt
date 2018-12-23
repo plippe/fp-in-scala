@@ -17,7 +17,6 @@ lazy val chapter03 = (project in file("chapter-03-functional-data-structures"))
 
 lazy val chapter04 = (project in file("chapter-04-handling-errors-without-exceptions"))
     .settings(chapterSettings)
-    .settings(scalacOptions -= "-Ywarn-dead-code")
 
 lazy val chapter05 = (project in file("chapter-05-strictness-and-laziness"))
     .settings(chapterSettings)
