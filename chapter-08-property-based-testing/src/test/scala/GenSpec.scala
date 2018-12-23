@@ -77,9 +77,9 @@ class GenSpec extends FunSuite with PropertyChecks {
   }
 
   test("weighted") {
-    forAll { (rng: RNG, av: Int, aw: Double, bv: Int, bw: Double) =>
-      val a = (Gen.unit(av), aw)
-      val b = (Gen.unit(bv), bw)
+    forAll { (rng: RNG, av: Int, aw: Byte, bv: Int, bw: Byte) =>
+      val a = (Gen.unit(av), aw.toDouble.abs)
+      val b = (Gen.unit(bv), bw.toDouble.abs)
       val expected = Answers.Gen.weighted(a, b).sample.run(rng)
       val result = Gen.weighted(a, b).sample.run(rng)
 
