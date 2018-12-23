@@ -14,6 +14,7 @@ package com.github.plippe.fpinscala.chapter07
 import java.util.concurrent._
 
 object Par {
+
   type Par[A] = ExecutorService => Future[A]
 
   def unit[A](a: A): Par[A] = _ => UnitFuture(a)

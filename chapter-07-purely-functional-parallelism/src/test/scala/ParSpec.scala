@@ -77,7 +77,7 @@ class ParSpec extends FunSuite with PropertyChecks {
   }
 
   test("chooser") {
-    def f(a: Int) = ???
+    def f(a: Int) = Par.unit(a + 1)
 
     forAll { (pa: Par.Par[Int]) =>
       val expected = Answers.Par.chooser(pa)(f)
@@ -115,7 +115,7 @@ class ParSpec extends FunSuite with PropertyChecks {
   }
 
   test("flatMapWithJoin") {
-    def f(a: Int) = ???
+    def f(a: Int) = Par.unit(a + 1)
 
     forAll { (pa: Par.Par[Int]) =>
       val expected = Answers.Par.chooser(pa)(f)
