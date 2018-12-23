@@ -1,11 +1,11 @@
 package com.github.plippe.fpinscala.chapter07
 
-import org.scalacheck.{Arbitrary, Gen => OfficialGen}
+import org.scalacheck.{Arbitrary, Gen}
 
-object Gen {
+package object gen {
 
-  implicit def arbitraryParGen[T: Arbitrary] = Arbitrary(parGen[T])
-  def parGen[T: Arbitrary]: OfficialGen[Par.Par[T]] =
+  implicit def arbitraryPar[T: Arbitrary] = Arbitrary(genPar[T])
+  def genPar[T: Arbitrary]: Gen[Par.Par[T]] =
     Arbitrary.arbitrary[T].map(Par.unit)
 
 }

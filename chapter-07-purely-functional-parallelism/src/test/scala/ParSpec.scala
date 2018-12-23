@@ -3,7 +3,7 @@ package com.github.plippe.fpinscala.chapter07
 import org.scalatest._
 import org.scalatest.prop.PropertyChecks
 
-import com.github.plippe.fpinscala.chapter07.Gen._
+import com.github.plippe.fpinscala.chapter07.gen._
 
 class ParSpec extends FunSuite with PropertyChecks {
 

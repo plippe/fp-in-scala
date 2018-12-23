@@ -3,7 +3,7 @@ package com.github.plippe.fpinscala.chapter03
 import org.scalatest._
 import org.scalatest.prop.{PropertyChecks, Whenever}
 
-import com.github.plippe.fpinscala.chapter03.Gen._
+import com.github.plippe.fpinscala.chapter03.gen._
 
 class ListSpec extends FunSuite with PropertyChecks with Whenever {
 

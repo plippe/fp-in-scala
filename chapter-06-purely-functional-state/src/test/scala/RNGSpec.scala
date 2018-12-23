@@ -3,7 +3,7 @@ package com.github.plippe.fpinscala.chapter06
 import org.scalatest._
 import org.scalatest.prop.PropertyChecks
 
-import com.github.plippe.fpinscala.chapter06.Gen._
+import com.github.plippe.fpinscala.chapter06.gen._
 
 class RNGSpec extends FunSuite with PropertyChecks {
 

@@ -3,7 +3,7 @@ package com.github.plippe.fpinscala.chapter03
 import org.scalatest._
 import org.scalatest.prop.PropertyChecks
 
-import com.github.plippe.fpinscala.chapter03.Gen._
+import com.github.plippe.fpinscala.chapter03.gen._
 
 class TreeSpec extends FunSuite with PropertyChecks {
 

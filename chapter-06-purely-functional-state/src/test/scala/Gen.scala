@@ -1,30 +1,30 @@
 package com.github.plippe.fpinscala.chapter06
 
-import org.scalacheck.{Arbitrary, Gen => OfficialGen}
+import org.scalacheck.{Arbitrary, Gen}
 import com.github.plippe.fpinscala.chapter06.State._
 
-object Gen {
+package object gen {
 
-  implicit def arbitraryRngGen = Arbitrary(rngGen)
-  def rngGen: OfficialGen[RNG] = Arbitrary.arbitrary[Long].map(SimpleRNG.apply)
+  implicit def arbitraryRng = Arbitrary(genRng)
+  def genRng: Gen[RNG] = Arbitrary.arbitrary[Long].map(SimpleRNG.apply)
 
-  implicit def arbitraryRandGen[T: Arbitrary] = Arbitrary(randGen[T])
-  def randGen[T: Arbitrary]: OfficialGen[RNG.Rand[T]] =
+  implicit def arbitraryRand[T: Arbitrary] = Arbitrary(genRand[T])
+  def genRand[T: Arbitrary]: Gen[RNG.Rand[T]] =
     Arbitrary.arbitrary[T].map { value: T => (rng: RNG) =>
       (value, rng)
     }
 
-  implicit def arbitraryStateGen[S, T: Arbitrary] = Arbitrary(stateGen[S, T])
-  def stateGen[S, T: Arbitrary]: OfficialGen[State[S, T]] =
+  implicit def arbitraryState[S, T: Arbitrary] = Arbitrary(genState[S, T])
+  def genState[S, T: Arbitrary]: Gen[State[S, T]] =
     for {
       value <- Arbitrary.arbitrary[T]
     } yield State(s => (value, s))
 
-  implicit def arbitraryInputGen = Arbitrary(inputGen)
-  def inputGen: OfficialGen[Input] = OfficialGen.oneOf(Coin, Turn)
+  implicit def arbitraryInput = Arbitrary(genInput)
+  def genInput: Gen[Input] = Gen.oneOf(Coin, Turn)
 
-  implicit def arbitraryMachineGen = Arbitrary(machineGen)
-  def machineGen: OfficialGen[Machine] =
+  implicit def arbitraryMachine = Arbitrary(genMachine)
+  def genMachine: Gen[Machine] =
     for {
       locked <- Arbitrary.arbitrary[Boolean]
       candies <- Arbitrary.arbitrary[Int]

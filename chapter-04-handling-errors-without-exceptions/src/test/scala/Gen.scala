@@ -1,20 +1,20 @@
 package com.github.plippe.fpinscala.chapter04
 
-import org.scalacheck.{Arbitrary, Gen => OfficialGen}
+import org.scalacheck.{Arbitrary, Gen}
 
-object Gen {
+package object gen {
 
-  implicit def arbitraryOptionGen[A: Arbitrary] = Arbitrary(optionGen[A])
-  def optionGen[A: Arbitrary]: OfficialGen[Option[A]] =
-    OfficialGen.oneOf(
-      OfficialGen.const(None),
+  implicit def arbitraryOption[A: Arbitrary] = Arbitrary(genOption[A])
+  def genOption[A: Arbitrary]: Gen[Option[A]] =
+    Gen.oneOf(
+      Gen.const(None),
       Arbitrary.arbitrary[A].map(Some.apply)
     )
 
-  implicit def arbitraryEitherGen[A: Arbitrary, B: Arbitrary] =
-    Arbitrary(eitherGen[A, B])
-  def eitherGen[A: Arbitrary, B: Arbitrary]: OfficialGen[Either[A, B]] =
-    OfficialGen.oneOf(
+  implicit def arbitraryEither[A: Arbitrary, B: Arbitrary] =
+    Arbitrary(genEither[A, B])
+  def genEither[A: Arbitrary, B: Arbitrary]: Gen[Either[A, B]] =
+    Gen.oneOf(
       Arbitrary.arbitrary[A].map(Left.apply),
       Arbitrary.arbitrary[B].map(Right.apply)
     )

@@ -3,7 +3,7 @@ package com.github.plippe.fpinscala.chapter04
 import org.scalatest._
 import org.scalatest.prop.{PropertyChecks, Whenever}
 
-import com.github.plippe.fpinscala.chapter04.Gen._
+import com.github.plippe.fpinscala.chapter04.gen._
 
 class EitherSpec extends FunSuite with PropertyChecks with Whenever {
 

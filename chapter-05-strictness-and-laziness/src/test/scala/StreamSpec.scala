@@ -3,7 +3,7 @@ package com.github.plippe.fpinscala.chapter05
 import org.scalatest._
 import org.scalatest.prop.PropertyChecks
 
-import com.github.plippe.fpinscala.chapter05.Gen._
+import com.github.plippe.fpinscala.chapter05.gen._
 
 class StreamSpec extends FunSuite with PropertyChecks {
 
