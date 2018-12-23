@@ -1,18 +1,18 @@
 package com.github.plippe.fpinscala.chapter05
 
-import org.scalacheck.{Arbitrary, Gen => OfficialGen}
+import org.scalacheck.{Arbitrary, Gen}
 
-object Gen {
+package object gen {
 
-  implicit def arbitraryStreamGen[T: Arbitrary] = Arbitrary(streamGen[T])
-  def streamGen[T: Arbitrary]: OfficialGen[Stream[T]] =
-    OfficialGen.oneOf(OfficialGen.const(Stream.empty[T]), consGen[T])
+  implicit def arbitraryStream[T: Arbitrary] = Arbitrary(genStream[T])
+  def genStream[T: Arbitrary]: Gen[Stream[T]] =
+    Gen.oneOf(Gen.const(Stream.empty[T]), genCons[T])
 
-  implicit def arbitraryConsGen[T: Arbitrary] = Arbitrary(consGen[T])
-  def consGen[T: Arbitrary]: OfficialGen[Cons[T]] =
+  implicit def arbitraryCons[T: Arbitrary] = Arbitrary(genCons[T])
+  def genCons[T: Arbitrary]: Gen[Cons[T]] =
     for {
       head <- Arbitrary.arbitrary[T]
-      tail <- streamGen[T]
+      tail <- genStream[T]
     } yield Stream.cons(head, tail).asInstanceOf[Cons[T]]
 
 }
