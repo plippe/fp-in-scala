@@ -35,83 +35,75 @@ class GenSpec extends FunSuite with PropertyChecks {
   }
 
   test("listOfN") {
-    forAll { (rng: RNG, n: Byte, value: Int) =>
-      val g = Gen.unit(value)
-      val expected = Answers.Gen.listOfN(n.toInt, g).sample.run(rng)
+    forAll { (rng: RNG, n: Byte, g: Gen[Int]) =>
       val result = Gen.listOfN(n.toInt, g).sample.run(rng)
+      val expected = Answers.Gen.listOfN(n.toInt, g).sample.run(rng)
 
       assert(expected == result)
     }
   }
 
   test("flatMap") {
-    val f = (value: Int) => Gen.unit(value)
-    forAll { (rng: RNG, value: Int) =>
-      val g = Gen.unit(value)
-      val expected = Answers.Gen.flatMap(g)(f).sample.run(rng)
+    val f = (a: Int) => Gen.unit(a)
+    forAll { (rng: RNG, g: Gen[Int]) =>
       val result = g.flatMap(f).sample.run(rng)
+      val expected = Answers.Gen.flatMap(g)(f).sample.run(rng)
 
       assert(expected == result)
     }
   }
 
   test("listOfNWithFlatMap") {
-    forAll { (rng: RNG, n: Byte, value: Int) =>
-      val g = Gen.unit(value)
-      val expected = Answers.Gen.listOfN(n.toInt, g).sample.run(rng)
+    forAll { (rng: RNG, n: Byte, g: Gen[Int]) =>
       val result = g.listOfN(Gen.unit(n.toInt)).sample.run(rng)
+      val expected = Answers.Gen.listOfN(n.toInt, g).sample.run(rng)
 
       assert(expected == result)
     }
   }
 
   test("union") {
-    forAll { (rng: RNG, av: Int, bv: Int) =>
-      val a = Gen.unit(av)
-      val b = Gen.unit(bv)
-      val expected = Answers.Gen.union(a, b).sample.run(rng)
-      val result = Gen.union(a, b).sample.run(rng)
+    forAll { (rng: RNG, ga: Gen[Int], gb: Gen[Int]) =>
+      val result = Gen.union(ga, gb).sample.run(rng)
+      val expected = Answers.Gen.union(ga, gb).sample.run(rng)
 
       assert(expected == result)
     }
   }
 
   test("weighted") {
-    forAll { (rng: RNG, av: Int, aw: Byte, bv: Int, bw: Byte) =>
-      val a = (Gen.unit(av), aw.toDouble.abs)
-      val b = (Gen.unit(bv), bw.toDouble.abs)
-      val expected = Answers.Gen.weighted(a, b).sample.run(rng)
+    forAll { (rng: RNG, ga: Gen[Int], wa: Byte, gb: Gen[Int], wb: Byte) =>
+      val a = (ga, wa.toDouble.abs)
+      val b = (gb, wb.toDouble.abs)
       val result = Gen.weighted(a, b).sample.run(rng)
+      val expected = Answers.Gen.weighted(a, b).sample.run(rng)
 
       assert(expected == result)
     }
   }
 
   test("unsized") {
-    forAll { (rng: RNG, n: Byte, av: Int) =>
-      val a = Gen.unit(av)
-      val expected = Answers.Gen.unsized(a).forSize(n.toInt).sample.run(rng)
-      val result = Gen.unsized(a).forSize(n.toInt).sample.run(rng)
+    forAll { (rng: RNG, n: Byte, g: Gen[Int]) =>
+      val result = Gen.unsized(g).forSize(n.toInt).sample.run(rng)
+      val expected = Answers.Gen.unsized(g).forSize(n.toInt).sample.run(rng)
 
       assert(expected == result)
     }
   }
 
   test("listOf") {
-    forAll { (rng: RNG, n: Byte, av: Int) =>
-      val a = Gen.unit(av)
-      val expected = Answers.Gen.listOf(a).forSize(n.toInt).sample.run(rng)
-      val result = Gen.listOf(a).forSize(n.toInt).sample.run(rng)
+    forAll { (rng: RNG, n: Byte, g: Gen[Int]) =>
+      val result = Gen.listOf(g).forSize(n.toInt).sample.run(rng)
+      val expected = Answers.Gen.listOf(g).forSize(n.toInt).sample.run(rng)
 
       assert(expected == result)
     }
   }
 
   test("listOf1") {
-    forAll { (rng: RNG, n: Byte, av: Int) =>
-      val a = Gen.unit(av)
-      val expected = Answers.Gen.listOf1(a).forSize(n.toInt).sample.run(rng)
-      val result = Gen.listOf1(a).forSize(n.toInt).sample.run(rng)
+    forAll { (rng: RNG, n: Byte, g: Gen[Int]) =>
+      val result = Gen.listOf1(g).forSize(n.toInt).sample.run(rng)
+      val expected = Answers.Gen.listOf1(g).forSize(n.toInt).sample.run(rng)
 
       assert(expected == result)
     }

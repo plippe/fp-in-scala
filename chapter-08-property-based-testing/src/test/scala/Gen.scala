@@ -8,6 +8,10 @@ package object gen {
   implicit def arbitraryRng = Arbitrary(genRng)
   def genRng: OfficialGen[RNG] = Arbitrary.arbitrary[Long].map(RNG.Simple)
 
+  implicit def arbitraryGen[T: Arbitrary] = Arbitrary(genGen[T])
+  def genGen[T: Arbitrary]: OfficialGen[Gen[T]] =
+    Arbitrary.arbitrary[T].map(t => Gen.unit(t))
+
   implicit def arbitraryResult = Arbitrary(genResult)
   def genResult: OfficialGen[Prop.Result] =
     OfficialGen.oneOf(OfficialGen.const(Prop.Passed), genFalsified)
