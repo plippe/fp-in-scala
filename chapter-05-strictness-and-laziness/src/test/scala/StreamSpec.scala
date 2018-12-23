@@ -9,8 +9,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("toList") {
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.toList(s)
       val result = s.toList
+      val expected = Answers.Stream.toList(s)
 
       assert(expected == result)
     }
@@ -18,8 +18,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("take") {
     forAll { (s: Stream[Int], n: Int) =>
-      val expected = Answers.Stream.take(s)(n)
       val result = s.take(n)
+      val expected = Answers.Stream.take(s)(n)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -27,8 +27,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("drop") {
     forAll { (s: Stream[Int], n: Int) =>
-      val expected = Answers.Stream.drop(s)(n)
       val result = s.drop(n)
+      val expected = Answers.Stream.drop(s)(n)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -38,8 +38,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a > 0
 
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.takeWhile(s)(f)
       val result = s.takeWhile(f)
+      val expected = Answers.Stream.takeWhile(s)(f)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -49,8 +49,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a > 0
 
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.takeWhile(s)(f)
       val result = s.takeWhileWithFoldRight(f)
+      val expected = Answers.Stream.takeWhile(s)(f)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -58,8 +58,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("headOptionWithFoldRight") {
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.headOption(s)
       val result = s.headOptionWithFoldRight
+      val expected = Answers.Stream.headOption(s)
 
       assert(expected == result)
     }
@@ -69,8 +69,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a + 1
 
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.map(s)(f)
       val result = s.map(f)
+      val expected = Answers.Stream.map(s)(f)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -80,8 +80,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a > 0
 
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.filter(s)(f)
       val result = s.filter(f)
+      val expected = Answers.Stream.filter(s)(f)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -89,8 +89,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("append") {
     forAll { (sa: Stream[Int], sb: Stream[Int]) =>
-      val expected = Answers.Stream.append(sa, sb)
       val result = sa.append(sb)
+      val expected = Answers.Stream.append(sa, sb)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -101,8 +101,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
       Cons(() => a, () => Cons(() => a, () => Cons(() => a, () => Empty)))
 
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.flatMap(s)(f)
       val result = s.flatMap(f)
+      val expected = Answers.Stream.flatMap(s)(f)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -110,8 +110,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("constant") {
     forAll { n: Int =>
-      val expected = Answers.Stream.constant(n)
       val result = Stream.constant(n)
+      val expected = Answers.Stream.constant(n)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -119,16 +119,16 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("from") {
     forAll { n: Int =>
-      val expected = Answers.Stream.from(n)
       val result = Stream.from(n)
+      val expected = Answers.Stream.from(n)
 
       assert(Answers.Stream.eqv(expected, result))
     }
   }
 
   test("fibs") {
-    val expected = Answers.Stream.fibs()
     val result = Stream.fibs()
+    val expected = Answers.Stream.fibs()
 
     assert(Answers.Stream.eqv(expected, result))
   }
@@ -139,24 +139,24 @@ class StreamSpec extends FunSuite with PropertyChecks {
       else None
 
     forAll { n: Int =>
-      val expected = Answers.Stream.unfold(n)(f)
       val result = Stream.unfold(n)(f)
+      val expected = Answers.Stream.unfold(n)(f)
 
       assert(Answers.Stream.eqv(expected, result))
     }
   }
 
   test("fibsWithUnfold") {
-    val expected = Answers.Stream.fibs()
     val result = Stream.fibsWithUnfold()
+    val expected = Answers.Stream.fibs()
 
     assert(Answers.Stream.eqv(expected, result))
   }
 
   test("fromWithUnfold") {
     forAll { n: Int =>
-      val expected = Answers.Stream.from(n)
       val result = Stream.fromWithUnfold(n)
+      val expected = Answers.Stream.from(n)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -164,16 +164,16 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("constantWithUnfold") {
     forAll { n: Int =>
-      val expected = Answers.Stream.constant(n)
       val result = Stream.constantWithUnfold(n)
+      val expected = Answers.Stream.constant(n)
 
       assert(Answers.Stream.eqv(expected, result))
     }
   }
 
   test("onesWithUnfold") {
-    val expected = Answers.Stream.onesWithUnfold()
     val result = Stream.onesWithUnfold()
+    val expected = Answers.Stream.onesWithUnfold()
 
     assert(Answers.Stream.eqv(expected, result))
   }
@@ -182,8 +182,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a + 1
 
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.map(s)(f)
       val result = s.mapWithUnfold(f)
+      val expected = Answers.Stream.map(s)(f)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -191,8 +191,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("takeWithUnfold") {
     forAll { (s: Stream[Int], n: Int) =>
-      val expected = Answers.Stream.take(s)(n)
       val result = s.takeWithUnfold(n)
+      val expected = Answers.Stream.take(s)(n)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -202,8 +202,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a > 0
 
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.takeWhile(s)(f)
       val result = s.takeWhileWithUnfold(f)
+      val expected = Answers.Stream.takeWhile(s)(f)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -211,8 +211,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("zipWithWithUnfold") {
     forAll { (sa: Stream[Int], sb: Stream[Int]) =>
-      val expected = Answers.Stream.zipWithWithUnfold(sa)(sb)(_ + _)
       val result = sa.zipWithWithUnfold(sb)(_ + _)
+      val expected = Answers.Stream.zipWithWithUnfold(sa)(sb)(_ + _)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -220,8 +220,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("zipAllWithUnfold") {
     forAll { (sa: Stream[Int], sb: Stream[Int]) =>
-      val expected = Answers.Stream.zipAllWithUnfold(sa)(sb)
       val result = sa.zipAllWithUnfold(sb)
+      val expected = Answers.Stream.zipAllWithUnfold(sa)(sb)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -229,8 +229,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("startsWith") {
     forAll { (sa: Stream[Int], sb: Stream[Int]) =>
-      val expected = Answers.Stream.startsWith(sa)(sb)
       val result = sa.startsWith(sb)
+      val expected = Answers.Stream.startsWith(sa)(sb)
 
       assert(expected == result)
     }
@@ -238,8 +238,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("tails") {
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.tails(s)
       val result = s.tails
+      val expected = Answers.Stream.tails(s)
 
       assert(Answers.Stream.eqv(expected, result))
     }
@@ -247,8 +247,8 @@ class StreamSpec extends FunSuite with PropertyChecks {
 
   test("scanRight") {
     forAll { s: Stream[Int] =>
-      val expected = Answers.Stream.scanRight(s)(0)(_ + _)
       val result = s.scanRight(0)(_ + _)
+      val expected = Answers.Stream.scanRight(s)(0)(_ + _)
 
       assert(Answers.Stream.eqv(expected, result))
     }

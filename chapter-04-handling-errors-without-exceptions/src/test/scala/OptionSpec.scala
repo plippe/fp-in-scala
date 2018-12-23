@@ -11,8 +11,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a + 1
 
     forAll { o: Option[Int] =>
-      val expected = Answers.Option.map(o)(f)
       val result = o.map(f)
+      val expected = Answers.Option.map(o)(f)
 
       assert(expected == result)
     }
@@ -20,8 +20,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
 
   test("flatMap") {
     forAll { (oa: Option[Int], ob: Option[Int]) =>
-      val expected = Answers.Option.flatMap(oa)(_ => ob)
       val result = oa.flatMap(_ => ob)
+      val expected = Answers.Option.flatMap(oa)(_ => ob)
 
       assert(expected == result)
     }
@@ -29,8 +29,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
 
   test("getOrElse") {
     forAll { (o: Option[Int], n: Int) =>
-      val expected = Answers.Option.getOrElse(o)(n)
       val result = o.getOrElse(n)
+      val expected = Answers.Option.getOrElse(o)(n)
 
       assert(expected == result)
     }
@@ -38,8 +38,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
 
   test("orElse") {
     forAll { (oa: Option[Int], ob: Option[Int]) =>
-      val expected = Answers.Option.orElse(oa)(ob)
       val result = oa.orElse(ob)
+      val expected = Answers.Option.orElse(oa)(ob)
 
       assert(expected == result)
     }
@@ -49,8 +49,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
     def f(a: Int) = a > 0
 
     forAll { o: Option[Int] =>
-      val expected = Answers.Option.filter(o)(f)
       val result = o.filter(f)
+      val expected = Answers.Option.filter(o)(f)
 
       assert(expected == result)
     }
@@ -58,8 +58,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
 
   test("variance") {
     forAll { xs: List[Double] =>
-      val expected = Answers.Option.variance(xs)
       val result = Option.variance(xs)
+      val expected = Answers.Option.variance(xs)
 
       assert(expected == result)
     }
@@ -69,8 +69,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
     def f(a: Int, b: Int) = Right(a + b)
 
     forAll { (oa: Option[Int], ob: Option[Int]) =>
-      val expected = Answers.Option.map2(oa, ob)(f)
       val result = Option.map2(oa, ob)(f)
+      val expected = Answers.Option.map2(oa, ob)(f)
 
       assert(expected == result)
     }
@@ -78,8 +78,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
 
   test("sequence") {
     forAll { os: List[Option[Int]] =>
-      val expected = Answers.Option.sequence(os)
       val result = Option.sequence(os)
+      val expected = Answers.Option.sequence(os)
 
       assert(expected == result)
     }
@@ -87,8 +87,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
 
   test("traverse") {
     forAll { (os: List[Option[Int]], o: Option[Int]) =>
-      val expected = Answers.Option.traverse(os)(_ => o)
       val result = Option.traverse(os)(_ => o)
+      val expected = Answers.Option.traverse(os)(_ => o)
 
       assert(expected == result)
     }
@@ -96,8 +96,8 @@ class OptionSpec extends FunSuite with PropertyChecks {
 
   test("sequenceWithTraverse") {
     forAll { os: List[Option[Int]] =>
-      val expected = Answers.Option.sequence(os)
       val result = Option.sequenceWithTraverse(os)
+      val expected = Answers.Option.sequence(os)
 
       assert(expected == result)
     }

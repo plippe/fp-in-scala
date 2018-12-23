@@ -11,8 +11,8 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
     def f(a: Int) = a + 1
 
     forAll { e: Either[Int, Int] =>
-      val expected = Answers.Either.map(e)(f)
       val result = e.map(f)
+      val expected = Answers.Either.map(e)(f)
 
       assert(expected == result)
     }
@@ -20,8 +20,8 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
 
   test("flatMap") {
     forAll { (ea: Either[Int, Int], eb: Either[Int, Int]) =>
-      val expected = Answers.Either.flatMap(ea)(_ => eb)
       val result = ea.flatMap(_ => eb)
+      val expected = Answers.Either.flatMap(ea)(_ => eb)
 
       assert(expected == result)
     }
@@ -29,8 +29,8 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
 
   test("orElse") {
     forAll { (ea: Either[Int, Int], eb: Either[Int, Int]) =>
-      val expected = Answers.Either.orElse(ea)(eb)
       val result = ea.orElse(eb)
+      val expected = Answers.Either.orElse(ea)(eb)
 
       assert(expected == result)
     }
@@ -40,8 +40,8 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
     def f(a: Int, b: Int) = Right(a + b)
 
     forAll { (ea: Either[Int, Int], eb: Either[Int, Int]) =>
-      val expected = Answers.Either.map2(ea, eb)(f)
       val result = ea.map2(eb)(f)
+      val expected = Answers.Either.map2(ea, eb)(f)
 
       assert(expected == result)
     }
@@ -49,8 +49,8 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
 
   test("sequence") {
     forAll { es: List[Either[Int, Int]] =>
-      val expected = Answers.Either.sequence(es)
       val result = Either.sequence(es)
+      val expected = Answers.Either.sequence(es)
 
       assert(expected == result)
     }
@@ -58,8 +58,8 @@ class EitherSpec extends FunSuite with PropertyChecks with Whenever {
 
   test("traverse") {
     forAll { (es: List[Either[Int, Int]], e: Either[Int, Int]) =>
-      val expected = Answers.Either.traverse(es)(_ => e)
       val result = Either.traverse(es)(_ => e)
+      val expected = Answers.Either.traverse(es)(_ => e)
 
       assert(expected == result)
     }
