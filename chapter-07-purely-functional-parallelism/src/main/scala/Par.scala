@@ -12,6 +12,7 @@ package com.github.plippe.fpinscala.chapter07
   * to implement the functions of our API.
   */
 import java.util.concurrent._
+import java.util.concurrent.atomic.AtomicReference
 
 object Par {
 
@@ -117,12 +118,6 @@ object Par {
     * Show that any fixed-size thread pool can be made to deadlock given this implementation
     * of fork.
     */
-  /** EXERCISE 7.10
-    *
-    * Our non-blocking representation doesn’t currently handle errors at all. If at any
-    * point our computation throws an exception, the run implementation’s latch never
-    * counts down and the exception is simply swallowed. Can you fix that?
-    */
   /** EXERCISE 7.11
     *
     * Implement choiceN and then choice in terms of choiceN.
@@ -161,4 +156,28 @@ object Par {
   def flatMapWithJoin[A, B](a: Par[A])(f: A => Par[B]): Par[B] = ???
   def joinWithFlatMap[A](a: Par[Par[A]]): Par[A] = ???
 
+}
+
+object AsyncPar {
+  sealed trait Future[A] {
+    def apply(k: A => Unit): Unit
+  }
+
+  type Par[A] = ExecutorService => Future[A]
+
+  def run[A](es: ExecutorService)(p: Par[A]): A = {
+    val ref = new AtomicReference[A]
+    val latch = new CountDownLatch(1)
+    p(es) { a =>
+      ref.set(a); latch.countDown
+    }
+    latch.await
+    ref.get
+  }
+  /** EXERCISE 7.10
+  *
+  * Our non-blocking representation doesn’t currently handle errors at all. If at any
+  * point our computation throws an exception, the run implementation’s latch never
+  * counts down and the exception is simply swallowed. Can you fix that?
+  */
 }
